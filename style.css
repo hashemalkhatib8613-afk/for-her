@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
 }
@@ -20,6 +19,32 @@ body {
   margin-top: 40px;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+
+  /* 🔹 required for background image */
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🌸 Background image behind the letter */
+.letter-container::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  background: url("iLovePDF2-bg-removed.png") no-repeat center;
+  background-size: contain;
+  opacity: 0.12;          /* soft & emotional */
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Keep all text above the image */
+.letter-container * {
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
@@ -74,28 +99,8 @@ button:hover {
   font-style: italic;
   text-align: right;
 }
-.logout-wrapper {
-  text-align: right;
-  margin-bottom: 10px;
-}
 
-.logout-btn {
-  background: transparent;
-  border: 1px solid #b85c8e;
-  color: #b85c8e;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.logout-btn:hover {
-  background: #b85c8e;
-  color: white;
-}
-
-
-/* Mobile enhancements */
+/* 📱 Mobile enhancements */
 @media (max-width: 480px) {
   h1 {
     font-size: 24px;
@@ -107,5 +112,12 @@ button:hover {
 
   p {
     font-size: 15px;
+  }
+
+  /* Slightly smaller image on mobile */
+  .letter-container::before {
+    width: 300px;
+    height: 300px;
+    opacity: 0.1;
   }
 }
