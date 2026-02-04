@@ -31,14 +31,15 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 420px;
-  height: 420px;
+  width: 380px;
+  height: 380px;
   background: url("iLovePDF2-bg-removed.png") no-repeat center;
   background-size: contain;
-  opacity: 0.12;          /* soft & emotional */
+  opacity: 0.28;                 /* clearer, visible */
   transform: translate(-50%, -50%);
   z-index: 0;
   pointer-events: none;
+  filter: contrast(1.1);         /* adds clarity */
 }
 
 /* Keep all text above the image */
@@ -115,9 +116,9 @@ button:hover {
   }
 
   /* Slightly smaller image on mobile */
-  .letter-container::before {
-    width: 300px;
-    height: 300px;
-    opacity: 0.1;
+   .letter-container::before {
+    width: 280px;
+    height: 280px;
+    opacity: 0.22;
   }
 }
