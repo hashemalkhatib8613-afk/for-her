@@ -36,7 +36,6 @@ body {
   100% { transform: scale(1); }
 }
 
-/* 🌸 Background image behind the letter */
 .letter-container::before {
   content: "";
   position: absolute;
@@ -46,6 +45,7 @@ body {
   height: 380px;
   background: url("iLovePDF2-bg-removed.png") no-repeat center;
   background-size: contain;
+  opacity: 0.28;                 /* clearer, visible */
   transform: translate(-50%, -50%);
   z-index: 0;
   pointer-events: none;
