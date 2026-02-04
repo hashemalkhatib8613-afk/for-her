@@ -74,6 +74,7 @@ input {
 }
 
 button {
+  font-family: 'Georgia', serif;
   width: 100%;
   padding: 14px;
   background: #b85c8e;
