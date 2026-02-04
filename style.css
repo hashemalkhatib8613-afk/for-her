@@ -74,6 +74,26 @@ button:hover {
   font-style: italic;
   text-align: right;
 }
+.logout-wrapper {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid #b85c8e;
+  color: #b85c8e;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background: #b85c8e;
+  color: white;
+}
+
 
 /* Mobile enhancements */
 @media (max-width: 480px) {
