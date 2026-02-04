@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+<form onsubmit="return login()">
+  <h1 class="hearts">♥ ♥ ♥</h1>
+   <h1>❤️Hiii Memmmaa❤️</h1>
+          <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <p id="error" class="error"></p>
+    </form>
+  </div>
+
+  <script>
+    function login() {
+      const p = document.getElementById("password").value;
+      if (p === "Mema1904") {
+        sessionStorage.setItem("authenticated", "true");
+        window.location.href = "kinderEgg.html";
+      } else {
+        document.getElementById("error").innerText = "Invalid credentials";
+      }
+      return false;
+    }
+  </script>
+</body>
+</html>
