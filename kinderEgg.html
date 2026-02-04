@@ -50,7 +50,7 @@
 
     const egg = document.getElementById('egg');
     let clicks = 0;
-    const totalClicks = 5;
+    const totalClicks = 4;
 
     // Array of cracked egg images (replace with real cracked images if you have them)
     const crackedEggs = [
@@ -58,13 +58,11 @@
       "egg-2.png",
       "egg-3.png",
       "egg-4.png",
-      "egg-5.png",
-
     ];
 
     egg.addEventListener('click', () => {
       clicks++;
-      if (clicks < totalClicks) {
+      if (clicks <= totalClicks) {
         // Change egg image
         egg.src = crackedEggs[clicks] || crackedEggs[0];
       } else {
