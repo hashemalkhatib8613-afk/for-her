@@ -12,33 +12,29 @@
     <form onsubmit="return login()">
       <h1>❤️ Hiii Memmmaa ❤️</h1>
 
-      <input type="password" id="password" placeholder="Password" required>
-      <label style="font-size:14px; cursor:pointer; width: 20px;">
-      <button type="button" class="toggle-password" onclick="togglePassword()">Show Password</button>
-      </label>
+      <input type="date" id="secretDate" required>
 
-      <br><br>
-
-      <button type="submit">Login</button>
+      <button type="submit">Enter</button>
       <p id="error" class="error"></p>
     </form>
 
   </div>
 
   <script>
-    function togglePassword() {
-      const pwd = document.getElementById("password");
-      pwd.type = pwd.type === "password" ? "text" : "password";
-    }
-
     function login() {
-      const p = document.getElementById("password").value;
-      if (p === "Mema1904") {
+      const selectedDate = document.getElementById("secretDate").value;
+
+      // HTML date format is YYYY-MM-DD
+      const correctDate = "2025-06-12";
+
+      if (selectedDate === correctDate) {
         sessionStorage.setItem("authenticated", "true");
         window.location.href = "kinderEgg.html";
       } else {
-        document.getElementById("error").innerText = "Invalid credentials";
+        document.getElementById("error").innerText =
+          "That date doesn’t feel right 💔";
       }
+
       return false;
     }
   </script>
