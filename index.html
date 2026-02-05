@@ -7,70 +7,12 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fff5f7;
-    }
-
-    .container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    form {
-      width: 100%;
-      max-width: 360px;
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
-
-    input[type="date"] {
-      width: 100%;
-      font-size: 16px;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      margin-bottom: 12px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      border-radius: 12px;
-      border: none;
-      background: #e63946;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
     .hint {
-      font-size: 14px;
-      color: #b23;
-      margin-bottom: 15px;
-      font-style: italic;
-    }
-
-    .error {
       margin-top: 10px;
-      color: #d00000;
       font-size: 14px;
+      color: #c44;
+      text-align: center;
+      font-style: italic;
     }
   </style>
 </head>
@@ -82,13 +24,13 @@
 
       <input type="date" id="secretDate" required>
 
-      <div class="hint">
-        Pick the day our story began —  
-        the first time me and you ever interacted.
-      </div>
+      <p class="hint">
+        Choose the day when our story began —  
+        the first time me and you ever crossed paths.
+      </p>
 
       <button type="submit">Enter</button>
-      <div id="error" class="error"></div>
+      <p id="error" class="error"></p>
     </form>
 
   </div>
@@ -103,8 +45,9 @@
         window.location.href = "kinderEgg.html";
       } else {
         document.getElementById("error").innerText =
-          "Not this day… try the one that changed everything 💭";
+          "Not yet… try the day that started everything 💭";
       }
+
       return false;
     }
   </script>
