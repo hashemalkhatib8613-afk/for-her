@@ -7,12 +7,71 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    .hint {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #c44;
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff5f7;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    form {
+      width: 100%;
+      max-width: 360px;
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       text-align: center;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      font-size: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      background: #e63946;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #b23;
+      margin-bottom: 15px;
       font-style: italic;
+    }
+
+    .error {
+      margin-top: 10px;
+      color: #d00000;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -21,15 +80,15 @@
 
     <form onsubmit="return login()">
       <h1>❤️ Hiii Memmmaa ❤️</h1>
-      
-      <input type="date" id="secretDate" style="width: 90%;" required>
-      <p class="hint">
-        Choose the day when our story began —  
-        the first time me and you ever crossed paths.
-      </p>
+
+      <input type="text" placeholder="MM/DD/YYYY" id="secretDate" onfocus="(this.type='date')" required>
+
+      <div class="hint">
+        Pick the day our story began — the first time me and Mema ever interacted.
+      </div>
 
       <button type="submit">Enter</button>
-      <p id="error" class="error"></p>
+      <div id="error" class="error"></div>
     </form>
 
   </div>
@@ -37,16 +96,15 @@
   <script>
     function login() {
       const selectedDate = document.getElementById("secretDate").value;
-      const correctDate = "2025-06-12";
+      const correctDate = "2025-06-12"; // your chosen date
 
       if (selectedDate === correctDate) {
         sessionStorage.setItem("authenticated", "true");
         window.location.href = "kinderEgg.html";
       } else {
         document.getElementById("error").innerText =
-          "Not yet… try the day that started everything 💭";
+          "Not this day… try the one that started everything 💭";
       }
-
       return false;
     }
   </script>
