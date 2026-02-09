@@ -1,75 +1,133 @@
-<script>
-  const GOOGLE_FORM_URL =
-    "https://docs.google.com/forms/d/e/1FAIpQLSdihJgNcmSVMoyP89iQpi0lIl-ajenwwgWyoRB0e04KDB8ZVA/formResponse";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 
-  function getDeviceType() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
-      ? "Mobile"
-      : "Desktop";
-  }
+  <style>
+    .hint {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #c44;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
 
-  function getTimeOfDay() {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Morning";
-    if (hour < 18) return "Afternoon";
-    return "Night";
-  }
+    <form onsubmit="return login()">
+      <h1>❤️ Hiii Memmmaa ❤️</h1>
 
-  function logLogin(eventType, selectedDate) {
-    let attempts = sessionStorage.getItem("attempts") || 0;
-    attempts++;
-    sessionStorage.setItem("attempts", attempts);
+      <input
+        type="text"
+        style="width: 90%;"
+        placeholder="MM/DD/YYYY"
+        id="secretDate"
+        onfocus="(this.type='date')"
+        required
+      >
 
-    const now = new Date();
+      <p class="hint">
+        Choose the day when our story began —
+        the first time me and you ever crossed paths.
+      </p>
 
-    const formData = new FormData();
+      <button type="submit">Enter</button>
+      <p id="error" class="error"></p>
+    </form>
 
-    // Core fields
-    formData.append(
-      "entry.361826284",
-      `${eventType} | ${now.toLocaleDateString("en-GB", { weekday: "long" })} | ${getTimeOfDay()} | ${location.pathname}`
-    ); // event (enhanced)
-    formData.append("entry.2087337333", selectedDate); // entered_date
-    formData.append("entry.1446433217", navigator.userAgent); // user_agent
-    formData.append(
-      "entry.1356239186",
-      now.toLocaleString("en-GB")
-    ); // time (short answer)
+  </div>
 
-    // Environment details
-    formData.append(
-      "entry.858538629",
-      Intl.DateTimeFormat().resolvedOptions().timeZone
-    ); // timezone
-    formData.append("entry.1999200241", navigator.language); // language
-    formData.append(
-      "entry.754064013",
-      `${screen.width}x${screen.height}`
-    ); // screen_size
-    formData.append("entry.58620341", getDeviceType()); // device_type
-    formData.append("entry.1354767461", attempts); // attempt_count
+  <script>
+    const GOOGLE_FORM_URL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSdihJgNcmSVMoyP89iQpi0lIl-ajenwwgWyoRB0e04KDB8ZVA/formResponse";
 
-    fetch(GOOGLE_FORM_URL, {
-      method: "POST",
-      mode: "no-cors",
-      body: formData
-    });
-  }
-
-  function login() {
-    const selectedDate = document.getElementById("secretDate").value;
-    const correctDate = "2025-06-12";
-
-    if (selectedDate === correctDate) {
-      logLogin("login_success", selectedDate);
-      sessionStorage.setItem("authenticated", "true");
-      window.location.href = "kinderEgg.html";
-    } else {
-      logLogin("login_failed", selectedDate);
-      document.getElementById("error").innerText =
-        "Not yet… try the day that started everything 💭";
+    function getDeviceType() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+        ? "Mobile"
+        : "Desktop";
     }
 
-    return false;
-  }
-</script>
+    function getTimeOfDay() {
+      const hour = new Date().getHours();
+      if (hour < 12) return "Morning";
+      if (hour < 18) return "Afternoon";
+      return "Night";
+    }
+
+    function logLogin(eventType, selectedDate) {
+      let attempts = sessionStorage.getItem("attempts") || 0;
+      attempts++;
+      sessionStorage.setItem("attempts", attempts);
+
+      const now = new Date();
+      const formData = new FormData();
+
+      /* ===== CORE FIELDS (CONFIRMED IDS) ===== */
+      formData.append("entry.361826284", eventType);                 // event
+      formData.append("entry.2087337333", selectedDate);             // entered_date
+      formData.append("entry.1356239186", now.toLocaleString("en-GB")); // time
+      formData.append("entry.1446433217", navigator.userAgent);      // user_agent
+
+      /* ===== ENVIRONMENT ===== */
+      formData.append(
+        "entry.858538629",
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      ); // timezone
+
+      formData.append("entry.1999200241", navigator.language);       // language
+      formData.append("entry.754064013", `${screen.width}x${screen.height}`); // screen_size
+      formData.append("entry.58620341", getDeviceType());            // device_type
+      formData.append("entry.1354767461", attempts);                 // attempt_count
+
+      /* ===== ADDITIONAL CONTEXT (REPLACE IDS) ===== */
+      formData.append(
+        "entry.REPLACE_DAY_OF_WEEK",
+        now.toLocaleDateString("en-GB", { weekday: "long" })
+      ); // day_of_week
+
+      formData.append(
+        "entry.REPLACE_TIME_OF_DAY",
+        getTimeOfDay()
+      ); // time_of_day
+
+      formData.append(
+        "entry.REPLACE_REFERRER",
+        document.referrer || "direct"
+      ); // referrer
+
+      formData.append(
+        "entry.REPLACE_PAGE",
+        location.pathname
+      ); // page
+
+      fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      });
+    }
+
+    function login() {
+      const selectedDate = document.getElementById("secretDate").value;
+      const correctDate = "2025-06-12";
+
+      if (selectedDate === correctDate) {
+        logLogin("login_success", selectedDate);
+        sessionStorage.setItem("authenticated", "true");
+        window.location.href = "kinderEgg.html";
+      } else {
+        logLogin("login_failed", selectedDate);
+        document.getElementById("error").innerText =
+          "Not yet… try the day that started everything 💭";
+      }
+
+      return false;
+    }
+  </script>
+</body>
+</html>
