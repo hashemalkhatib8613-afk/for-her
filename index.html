@@ -52,8 +52,9 @@
       formData.append("entry.2087337333", selectedDate); // entered_date
       formData.append(
         "entry.1446433217",
-        navigator.userAgent // user_agent
+        navigator.userAgents // user_agent
       );
+     formData.append("entry.XXXXX1", Intl.DateTimeFormat().resolvedOptions().timeZone); // timezone
 
       fetch(GOOGLE_FORM_URL, {
         method: "POST",
