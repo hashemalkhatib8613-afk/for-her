@@ -1,0 +1,75 @@
+<script>
+  const GOOGLE_FORM_URL =
+    "https://docs.google.com/forms/d/e/1FAIpQLSdihJgNcmSVMoyP89iQpi0lIl-ajenwwgWyoRB0e04KDB8ZVA/formResponse";
+
+  function getDeviceType() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+      ? "Mobile"
+      : "Desktop";
+  }
+
+  function getTimeOfDay() {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Morning";
+    if (hour < 18) return "Afternoon";
+    return "Night";
+  }
+
+  function logLogin(eventType, selectedDate) {
+    let attempts = sessionStorage.getItem("attempts") || 0;
+    attempts++;
+    sessionStorage.setItem("attempts", attempts);
+
+    const now = new Date();
+
+    const formData = new FormData();
+
+    // Core fields
+    formData.append(
+      "entry.361826284",
+      `${eventType} | ${now.toLocaleDateString("en-GB", { weekday: "long" })} | ${getTimeOfDay()} | ${location.pathname}`
+    ); // event (enhanced)
+    formData.append("entry.2087337333", selectedDate); // entered_date
+    formData.append("entry.1446433217", navigator.userAgent); // user_agent
+    formData.append(
+      "entry.1356239186",
+      now.toLocaleString("en-GB")
+    ); // time (short answer)
+
+    // Environment details
+    formData.append(
+      "entry.858538629",
+      Intl.DateTimeFormat().resolvedOptions().timeZone
+    ); // timezone
+    formData.append("entry.1999200241", navigator.language); // language
+    formData.append(
+      "entry.754064013",
+      `${screen.width}x${screen.height}`
+    ); // screen_size
+    formData.append("entry.58620341", getDeviceType()); // device_type
+    formData.append("entry.1354767461", attempts); // attempt_count
+
+    fetch(GOOGLE_FORM_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
+    });
+  }
+
+  function login() {
+    const selectedDate = document.getElementById("secretDate").value;
+    const correctDate = "2025-06-12";
+
+    if (selectedDate === correctDate) {
+      logLogin("login_success", selectedDate);
+      sessionStorage.setItem("authenticated", "true");
+      window.location.href = "kinderEgg.html";
+    } else {
+      logLogin("login_failed", selectedDate);
+      document.getElementById("error").innerText =
+        "Not yet… try the day that started everything 💭";
+    }
+
+    return false;
+  }
+</script>
