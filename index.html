@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .hint {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #c44;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <form onsubmit="return login()">
+      <h1>❤️ Hiii Memmmaa ❤️</h1>
+
+      <input
+        type="text"
+        style="width: 90%;"
+        placeholder="MM/DD/YYYY"
+        id="secretDate"
+        onfocus="(this.type='date')"
+        required
+      >
+
+      <p class="hint">
+        Choose the day when our story began —
+        the first time me and you ever crossed paths.
+      </p>
+
+      <button type="submit">Enter</button>
+      <p id="error" class="error"></p>
+    </form>
+
+  </div>
+
+  <script>
+    const GOOGLE_FORM_URL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSdihJgNcmSVMoyP89iQpi0lIl-ajenwwgWyoRB0e04KDB8ZVA/formResponse";
+
+    function logLogin(eventType, selectedDate) {
+      const formData = new FormData();
+      formData.append("entry.361826284", eventType); // event
+      formData.append("entry.2087337333", selectedDate); // entered_date
+      formData.append(
+        "entry.2143978377",
+        new Date().toLocaleString("en-GB") // time (short answer)
+      );
+      formData.append(
+        "entry.1446433217",
+        navigator.userAgent // user_agent
+      );
+
+      fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      });
+    }
+
+    function login() {
+      const selectedDate = document.getElementById("secretDate").value;
+      const correctDate = "2025-06-12";
+
+      if (selectedDate === correctDate) {
+        logLogin("login_success", selectedDate);
+
+        sessionStorage.setItem("authenticated", "true");
+        window.location.href = "kinderEgg.html";
+      } else {
+        logLogin("login_failed", selectedDate);
+
+        document.getElementById("error").innerText =
+          "Not yet… try the day that started everything 💭";
+      }
+
+      return false;
+    }
+  </script>
+</body>
+</html>
