@@ -19,7 +19,8 @@
 <body>
   <div class="container">
 
-    <form onsubmit="return login()">
+    <!-- IMPORTANT: removed return and added event -->
+    <form onsubmit="login(event)">
       <h1>❤️ Hiii Memmmaa ❤️</h1>
 
       <input
@@ -46,33 +47,46 @@
     const GOOGLE_FORM_URL =
       "https://docs.google.com/forms/d/e/1FAIpQLScWQl8D7WM5dbuPLN3XQVMb2DM30sRjaypkvQ9SvsW8iyfjdw/formResponse";
 
-    function logLogin(eventType, selectedDate) {
+    // Make logging async and wait for it
+    async function logLogin(eventType, selectedDate) {
       const formData = new FormData();
-      formData.append("entry.1195270967", eventType); // event
-      formData.append("entry.1733478229", selectedDate); // entered_date
-      fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
-      });
+      formData.append("entry.1195270967", eventType); 
+      formData.append("entry.1733478229", selectedDate);
+
+      try {
+        await fetch(GOOGLE_FORM_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        });
+      } catch (error) {
+        console.error("Logging failed:", error);
+      }
     }
 
-    function login() {
+    // Make login async
+    async function login(event) {
+      event.preventDefault();
+
       const selectedDate = document.getElementById("secretDate").value;
       const correctDate = "2025-06-12";
 
       if (selectedDate === correctDate) {
-        logLogin("login_success", selectedDate);
+        await logLogin("login_success", selectedDate);
+
         sessionStorage.setItem("authenticated", "true");
-        window.location.href = "kinderEgg.html";
+
+        // small delay for extra reliability
+        setTimeout(() => {
+          window.location.href = "kinderEgg.html";
+        }, 200);
+
       } else {
-        logLogin("login_failed", selectedDate);
+        await logLogin("login_failed", selectedDate);
 
         document.getElementById("error").innerText =
           "Not yet… try the day that started everything 💭";
       }
-
-      return false;
     }
   </script>
 </body>
